@@ -1,53 +1,29 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta name="robots" content="noindex, nofollow">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🍱 今日の献立</title>
+  <title>今日の献立</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
-      background: #F7F6F2;
-      color: #1a1a1a;
-      min-height: 100vh;
-      padding: 2rem 1rem 4rem;
+      background: #F7F6F2; color: #1a1a1a; min-height: 100vh; padding: 2rem 1rem 4rem;
     }
     .app { max-width: 560px; margin: 0 auto; }
     .header { text-align: center; margin-bottom: 2.5rem; }
     .header h1 { font-size: 26px; font-weight: 600; letter-spacing: 0.04em; }
     .header p { font-size: 13px; color: #888; margin-top: 6px; }
-    .card {
-      background: #fff;
-      border-radius: 16px;
-      border: 1px solid #e8e8e4;
-      padding: 1.25rem;
-      margin-bottom: 1rem;
-    }
-    .section-label {
-      font-size: 11px; font-weight: 600; color: #999;
-      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px;
-    }
+    .card { background: #fff; border-radius: 16px; border: 1px solid #e8e8e4; padding: 1.25rem; margin-bottom: 1rem; }
+    .section-label { font-size: 11px; font-weight: 600; color: #999; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
     .people-row { display: flex; align-items: center; gap: 14px; }
     .people-count { font-size: 28px; font-weight: 600; min-width: 36px; text-align: center; }
     .people-unit { font-size: 15px; color: #888; }
-    .people-btn {
-      width: 38px; height: 38px; border-radius: 50%;
-      border: 1px solid #ddd; background: #f5f5f3;
-      font-size: 22px; cursor: pointer; display: flex;
-      align-items: center; justify-content: center; color: #444;
-      transition: background 0.15s;
-    }
+    .people-btn { width: 38px; height: 38px; border-radius: 50%; border: 1px solid #ddd; background: #f5f5f3; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #444; transition: background 0.15s; }
     .people-btn:hover { background: #ebebea; }
     .people-btn:active { transform: scale(0.95); }
     .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-    .chip {
-      padding: 7px 14px; border-radius: 20px;
-      border: 1px solid #ddd; background: #fafafa;
-      font-size: 14px; cursor: pointer; color: #666;
-      transition: all 0.15s; user-select: none;
-    }
+    .chip { padding: 7px 14px; border-radius: 20px; border: 1px solid #ddd; background: #fafafa; font-size: 14px; cursor: pointer; color: #666; transition: all 0.15s; user-select: none; }
     .chip:hover { border-color: #bbb; color: #333; }
     .chip.active-time { background: #EBF3FD; border-color: #4A90D9; color: #1C5C9E; font-weight: 500; }
     .chip.active-mood { background: #EAF3DE; border-color: #4A8E20; color: #2E6010; font-weight: 500; }
@@ -58,55 +34,30 @@
     .card.easy-active { background: #FFFBF2; border-color: #F0B840; }
     .card.easy-active .easy-text strong { color: #7A4800; }
     .card.easy-active .easy-text span { color: #A86500; }
-    .generate-btn {
-      width: 100%; padding: 16px; border-radius: 14px;
-      border: none; background: #4A8E20; color: #fff;
-      font-size: 17px; font-weight: 600; cursor: pointer;
-      letter-spacing: 0.03em; transition: background 0.2s, transform 0.1s;
-      margin-top: 0.5rem;
-    }
+    .generate-btn { width: 100%; padding: 16px; border-radius: 14px; border: none; background: #4A8E20; color: #fff; font-size: 17px; font-weight: 600; cursor: pointer; letter-spacing: 0.03em; transition: background 0.2s, transform 0.1s; margin-top: 0.5rem; }
     .generate-btn:hover { background: #3A7018; }
     .generate-btn:active { transform: scale(0.98); }
-    .result-wrap {
-      background: #fff; border-radius: 16px;
-      border: 1px solid #e8e8e4; padding: 1.25rem; margin-top: 1rem;
-    }
-    .result-head {
-      display: flex; align-items: baseline; justify-content: space-between;
-      margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #f0f0ec;
-    }
+    .result-wrap { background: #fff; border-radius: 16px; border: 1px solid #e8e8e4; padding: 1.25rem; margin-top: 1rem; }
+    .result-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #f0f0ec; }
     .result-title { font-size: 14px; font-weight: 500; color: #555; }
     .total-cal { font-size: 13px; color: #888; }
     .total-cal strong { color: #1a1a1a; font-weight: 600; }
-    .meal-row {
-      display: flex; align-items: flex-start; gap: 12px;
-      padding: 11px 0; border-bottom: 1px solid #f4f4f0;
-    }
-    .meal-row:last-of-type { border-bottom: none; padding-bottom: 0; }
-    .meal-time { font-size: 11px; font-weight: 600; color: #999; min-width: 28px; padding-top: 3px; }
+    .time-block { margin-bottom: 14px; }
+    .time-block:last-child { margin-bottom: 0; }
+    .time-heading { font-size: 11px; font-weight: 700; color: #aaa; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px solid #f4f4f0; }
+    .meal-row { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 1px dashed #f0f0ec; }
+    .meal-row:last-child { border-bottom: none; padding-bottom: 0; }
     .meal-info { flex: 1; }
-    .meal-name { font-size: 16px; font-weight: 500; }
-    .meal-meta { display: flex; align-items: center; gap: 6px; margin-top: 5px; flex-wrap: wrap; }
-    .meal-ingredients { font-size: 12px; color: #999; }
-    .cal-badge {
-      font-size: 11px; font-weight: 600; padding: 2px 8px;
-      border-radius: 10px; background: #EAF3DE; color: #2E6010;
-    }
-    .easy-badge {
-      font-size: 11px; padding: 2px 8px;
-      border-radius: 10px; background: #FEF3E2; color: #A86500;
-    }
-    .retry-btn {
-      margin-top: 14px; width: 100%; padding: 11px;
-      border-radius: 10px; border: 1px solid #e0e0dc;
-      background: transparent; font-size: 14px; cursor: pointer; color: #666;
-      transition: background 0.15s;
-    }
+    .meal-name { font-size: 15px; font-weight: 500; }
+    .meal-meta { margin-top: 4px; }
+    .cal-badge { font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 10px; background: #EAF3DE; color: #2E6010; margin-right: 4px; }
+    .easy-badge { font-size: 11px; padding: 2px 7px; border-radius: 10px; background: #FEF3E2; color: #A86500; margin-right: 4px; }
+    .ingr-list { margin-top: 6px; }
+    .ingr-item { display: inline-block; font-size: 12px; color: #555; background: #f5f5f3; border-radius: 6px; padding: 2px 8px; margin: 2px 2px 0 0; }
+    .ingr-item .seasoning { color: #999; font-size: 11px; }
+    .retry-btn { margin-top: 14px; width: 100%; padding: 11px; border-radius: 10px; border: 1px solid #e0e0dc; background: transparent; font-size: 14px; cursor: pointer; color: #666; transition: background 0.15s; }
     .retry-btn:hover { background: #f5f5f3; }
-    .no-result {
-      text-align: center; padding: 2rem 1rem;
-      color: #888; font-size: 14px; line-height: 1.8;
-    }
+    .no-result { text-align: center; padding: 2rem 1rem; color: #888; font-size: 14px; line-height: 1.8; }
   </style>
 </head>
 <body>
@@ -162,75 +113,372 @@
 </div>
 
 <script>
-// ─── レシピデータ ───────────────────────────────────────────
+// ===== レシピデータ =====
+// ingredients: [ { name, unit, amount(1人分), seasoning(調味料フラグ) }, ... ]
 const RECIPES = [
-  // トキワ（時短・ずぼら向け）
-  { name:"豚丼", ingredients:"豚バラ肉・玉ねぎ", cal:520, categories:["丼もの"], meals:["昼食","夕食"], easy:true },
-  { name:"たたききゅうり", ingredients:"きゅうり", cal:20, categories:["サラダ・軽食"], meals:["昼食","夕食"], easy:true, side:true },
-  { name:"豆腐とわかめのお吸い物", ingredients:"豆腐・わかめ", cal:40, categories:["鍋・汁物"], meals:["朝食","昼食","夕食"], easy:true, side:true },
-  { name:"坦々なす", ingredients:"なす・ごま・豚ひき肉", cal:210, categories:["ご飯・おかず"], meals:["夕食"], easy:true },
-  { name:"トマトのかき玉スープ", ingredients:"トマト・卵", cal:80, categories:["鍋・汁物"], meals:["朝食","昼食","夕食"], easy:true, side:true },
-  { name:"漬けまぐろ丼", ingredients:"まぐろ・しょうゆ・みりん", cal:380, categories:["丼もの"], meals:["昼食","夕食"], easy:true },
-  { name:"なすごま酢和え", ingredients:"なす・ごま・酢", cal:60, categories:["サラダ・軽食"], meals:["昼食","夕食"], easy:true, side:true },
-  { name:"みょうがとオクラのお吸い物", ingredients:"みょうが・オクラ", cal:30, categories:["鍋・汁物"], meals:["昼食","夕食"], easy:true, side:true },
-  { name:"トマトとアボカドのマリネうどん", ingredients:"トマト・アボカド・冷凍うどん", cal:490, categories:["麺類"], meals:["昼食"], easy:true },
-  { name:"レタスとごまのスープ", ingredients:"レタス・ごま", cal:45, categories:["鍋・汁物"], meals:["朝食","昼食","夕食"], easy:true, side:true },
-  { name:"いわしの蒲焼き", ingredients:"いわし・しょうゆ・みりん", cal:280, categories:["ご飯・おかず"], meals:["昼食","夕食"], easy:true },
-  { name:"オクラとしらすの納豆和え", ingredients:"オクラ・しらす・納豆", cal:120, categories:["サラダ・軽食"], meals:["朝食","昼食","夕食"], easy:true, side:true },
-  { name:"ニラだれ鶏冷しゃぶ", ingredients:"鶏胸肉・ニラ", cal:260, categories:["ご飯・おかず"], meals:["昼食","夕食"], easy:true },
-  { name:"だしバタピーマン", ingredients:"ピーマン・バター・だし", cal:70, categories:["ご飯・おかず"], meals:["昼食","夕食"], easy:true, side:true },
-  { name:"サバ缶玉子丼", ingredients:"サバ缶・卵", cal:480, categories:["丼もの"], meals:["昼食","夕食"], easy:true },
-  { name:"レタスのさっと和え", ingredients:"レタス・ごま油", cal:30, categories:["サラダ・軽食"], meals:["朝食","昼食","夕食"], easy:true, side:true },
-  { name:"なすと油揚げのお吸い物", ingredients:"なす・油揚げ", cal:50, categories:["鍋・汁物"], meals:["昼食","夕食"], easy:true, side:true },
+  // --- トキワ（時短） ---
+  { name:"豚丼", cal:520, categories:["丼もの"], meals:["昼食","夕食"], easy:true,
+    ingredients:[
+      {name:"豚バラ肉", unit:"g", amount:120},
+      {name:"玉ねぎ", unit:"個", amount:0.5},
+      {name:"ご飯", unit:"g", amount:180},
+      {name:"しょうゆ", unit:"大さじ", amount:1.5, seasoning:true},
+      {name:"みりん", unit:"大さじ", amount:1.5, seasoning:true},
+      {name:"砂糖", unit:"小さじ", amount:1, seasoning:true},
+    ]},
+  { name:"たたききゅうり", cal:20, categories:["サラダ・軽食"], meals:["昼食","夕食"], easy:true, side:true,
+    ingredients:[
+      {name:"きゅうり", unit:"本", amount:1},
+      {name:"ごま油", unit:"小さじ", amount:1, seasoning:true},
+      {name:"塩", unit:"少々", amount:1, seasoning:true},
+    ]},
+  { name:"豆腐とわかめのお吸い物", cal:40, categories:["鍋・汁物"], meals:["朝食","昼食","夕食"], easy:true, side:true,
+    ingredients:[
+      {name:"豆腐", unit:"g", amount:50},
+      {name:"乾燥わかめ", unit:"g", amount:2},
+      {name:"だし", unit:"ml", amount:200, seasoning:true},
+      {name:"しょうゆ", unit:"小さじ", amount:0.5, seasoning:true},
+      {name:"塩", unit:"少々", amount:1, seasoning:true},
+    ]},
+  { name:"坦々なす", cal:210, categories:["ご飯・おかず"], meals:["夕食"], easy:true,
+    ingredients:[
+      {name:"なす", unit:"本", amount:1},
+      {name:"豚ひき肉", unit:"g", amount:60},
+      {name:"ごまペースト", unit:"大さじ", amount:1, seasoning:true},
+      {name:"豆板醤", unit:"小さじ", amount:0.5, seasoning:true},
+      {name:"しょうゆ", unit:"小さじ", amount:1, seasoning:true},
+    ]},
+  { name:"トマトのかき玉スープ", cal:80, categories:["鍋・汁物"], meals:["朝食","昼食","夕食"], easy:true, side:true,
+    ingredients:[
+      {name:"トマト", unit:"個", amount:0.5},
+      {name:"卵", unit:"個", amount:1},
+      {name:"鶏がらスープの素", unit:"小さじ", amount:1, seasoning:true},
+      {name:"塩こしょう", unit:"少々", amount:1, seasoning:true},
+    ]},
+  { name:"漬けまぐろ丼", cal:380, categories:["丼もの"], meals:["昼食","夕食"], easy:true,
+    ingredients:[
+      {name:"まぐろ(刺身用)", unit:"g", amount:80},
+      {name:"ご飯", unit:"g", amount:180},
+      {name:"しょうゆ", unit:"大さじ", amount:1, seasoning:true},
+      {name:"みりん", unit:"大さじ", amount:1, seasoning:true},
+      {name:"わさび", unit:"少々", amount:1, seasoning:true},
+    ]},
+  { name:"なすごま酢和え", cal:60, categories:["サラダ・軽食"], meals:["昼食","夕食"], easy:true, side:true,
+    ingredients:[
+      {name:"なす", unit:"本", amount:1},
+      {name:"すりごま", unit:"大さじ", amount:1, seasoning:true},
+      {name:"酢", unit:"大さじ", amount:1, seasoning:true},
+      {name:"砂糖", unit:"小さじ", amount:1, seasoning:true},
+    ]},
+  { name:"みょうがとオクラのお吸い物", cal:30, categories:["鍋・汁物"], meals:["昼食","夕食"], easy:true, side:true,
+    ingredients:[
+      {name:"みょうが", unit:"個", amount:1},
+      {name:"オクラ", unit:"本", amount:2},
+      {name:"だし", unit:"ml", amount:200, seasoning:true},
+      {name:"塩", unit:"少々", amount:1, seasoning:true},
+    ]},
+  { name:"トマトとアボカドのマリネうどん", cal:490, categories:["麺類"], meals:["昼食"], easy:true,
+    ingredients:[
+      {name:"冷凍うどん", unit:"玉", amount:1},
+      {name:"トマト", unit:"個", amount:0.5},
+      {name:"アボカド", unit:"個", amount:0.5},
+      {name:"オリーブオイル", unit:"大さじ", amount:1, seasoning:true},
+      {name:"しょうゆ", unit:"小さじ", amount:1, seasoning:true},
+      {name:"塩こしょう", unit:"少々", amount:1, seasoning:true},
+    ]},
+  { name:"レタスとごまのスープ", cal:45, categories:["鍋・汁物"], meals:["朝食","昼食","夕食"], easy:true, side:true,
+    ingredients:[
+      {name:"レタス", unit:"枚", amount:2},
+      {name:"ごま", unit:"小さじ", amount:1, seasoning:true},
+      {name:"鶏がらスープの素", unit:"小さじ", amount:1, seasoning:true},
+    ]},
+  { name:"いわしの蒲焼き", cal:280, categories:["ご飯・おかず"], meals:["昼食","夕食"], easy:true,
+    ingredients:[
+      {name:"いわし", unit:"尾", amount:2},
+      {name:"しょうゆ", unit:"大さじ", amount:1, seasoning:true},
+      {name:"みりん", unit:"大さじ", amount:1, seasoning:true},
+      {name:"砂糖", unit:"小さじ", amount:1, seasoning:true},
+    ]},
+  { name:"オクラとしらすの納豆和え", cal:120, categories:["サラダ・軽食"], meals:["朝食","昼食","夕食"], easy:true, side:true,
+    ingredients:[
+      {name:"オクラ", unit:"本", amount:3},
+      {name:"しらす", unit:"g", amount:20},
+      {name:"納豆", unit:"パック", amount:1},
+      {name:"しょうゆ", unit:"少々", amount:1, seasoning:true},
+    ]},
+  { name:"ニラだれ鶏冷しゃぶ", cal:260, categories:["ご飯・おかず"], meals:["昼食","夕食"], easy:true,
+    ingredients:[
+      {name:"鶏胸肉", unit:"g", amount:100},
+      {name:"ニラ", unit:"束", amount:0.25},
+      {name:"しょうゆ", unit:"大さじ", amount:1, seasoning:true},
+      {name:"ごま油", unit:"小さじ", amount:1, seasoning:true},
+    ]},
+  { name:"だしバタピーマン", cal:70, categories:["ご飯・おかず"], meals:["昼食","夕食"], easy:true, side:true,
+    ingredients:[
+      {name:"ピーマン", unit:"個", amount:1.5},
+      {name:"バター", unit:"g", amount:5, seasoning:true},
+      {name:"だし", unit:"ml", amount:50, seasoning:true},
+      {name:"しょうゆ", unit:"少々", amount:1, seasoning:true},
+    ]},
+  { name:"サバ缶玉子丼", cal:480, categories:["丼もの"], meals:["昼食","夕食"], easy:true,
+    ingredients:[
+      {name:"サバ缶(水煮)", unit:"缶", amount:0.5},
+      {name:"卵", unit:"個", amount:1},
+      {name:"ご飯", unit:"g", amount:180},
+      {name:"しょうゆ", unit:"大さじ", amount:1, seasoning:true},
+      {name:"みりん", unit:"大さじ", amount:1, seasoning:true},
+    ]},
+  { name:"レタスのさっと和え", cal:30, categories:["サラダ・軽食"], meals:["朝食","昼食","夕食"], easy:true, side:true,
+    ingredients:[
+      {name:"レタス", unit:"枚", amount:3},
+      {name:"ごま油", unit:"小さじ", amount:0.5, seasoning:true},
+      {name:"塩", unit:"少々", amount:1, seasoning:true},
+    ]},
+  { name:"なすと油揚げのお吸い物", cal:50, categories:["鍋・汁物"], meals:["昼食","夕食"], easy:true, side:true,
+    ingredients:[
+      {name:"なす", unit:"本", amount:0.5},
+      {name:"油揚げ", unit:"枚", amount:0.5},
+      {name:"だし", unit:"ml", amount:200, seasoning:true},
+      {name:"しょうゆ", unit:"小さじ", amount:0.5, seasoning:true},
+    ]},
 
-  // デリッシュキッチン
-  { name:"牛丼", ingredients:"牛薄切り肉・玉ねぎ", cal:702, categories:["丼もの"], meals:["昼食","夕食"], easy:false },
-  { name:"ふわとろ親子丼", ingredients:"鶏もも肉・玉ねぎ・卵", cal:837, categories:["丼もの"], meals:["昼食","夕食"], easy:false },
-  { name:"麻婆豆腐", ingredients:"豆腐・豚ひき肉・豆板醤", cal:725, categories:["ご飯・おかず"], meals:["夕食"], easy:false },
-  { name:"チーズソースのタコライス", ingredients:"合いびき肉・じゃがいも・トマト・レタス", cal:854, categories:["丼もの","ご飯・おかず"], meals:["昼食","夕食"], easy:false },
-  { name:"みそ豚丼", ingredients:"豚こま切れ肉・みそ・ほうれん草", cal:704, categories:["丼もの"], meals:["昼食","夕食"], easy:true },
-  { name:"濃厚味噌焼きうどん", ingredients:"豚こま切れ肉・にんじん・キャベツ", cal:569, categories:["麺類"], meals:["昼食","夕食"], easy:true },
-  { name:"豚そぼろと卵の2色丼", ingredients:"豚ひき肉・卵", cal:750, categories:["丼もの"], meals:["昼食","夕食"], easy:true },
-  { name:"エビたまあんかけ焼きそば", ingredients:"えび・にんじん・なす・しいたけ", cal:705, categories:["麺類"], meals:["昼食","夕食"], easy:false },
-  { name:"ローストビーフ丼", ingredients:"牛かたまり肉・じゃがいも", cal:835, categories:["丼もの"], meals:["夕食"], easy:false },
-  { name:"具沢山おにぎり", ingredients:"鮭・ブロッコリー", cal:546, categories:["ご飯・おかず","サラダ・軽食"], meals:["朝食","昼食"], easy:true },
-  { name:"巣篭もりハンバーグ", ingredients:"合いびき肉・玉ねぎ・トマト・卵", cal:906, categories:["ご飯・おかず"], meals:["夕食"], easy:false },
-  { name:"一口チキンカツ丼", ingredients:"鶏むね肉・にんじん・ごぼう", cal:725, categories:["丼もの"], meals:["昼食","夕食"], easy:false },
-  { name:"ぶっかけ豆腐茶漬け", ingredients:"豆腐・豆苗・だし", cal:313, categories:["ご飯・おかず","サラダ・軽食"], meals:["朝食","昼食"], easy:true },
-  { name:"切り抜きハムエッグトースト", ingredients:"トースト・チーズ・ハム・卵", cal:532, categories:["パン・洋食"], meals:["朝食"], easy:true },
+  // --- デリッシュキッチン ---
+  { name:"牛丼", cal:702, categories:["丼もの"], meals:["昼食","夕食"], easy:false,
+    ingredients:[
+      {name:"牛薄切り肉", unit:"g", amount:150},
+      {name:"玉ねぎ", unit:"個", amount:0.5},
+      {name:"ご飯", unit:"g", amount:180},
+      {name:"しょうゆ", unit:"大さじ", amount:2, seasoning:true},
+      {name:"みりん", unit:"大さじ", amount:2, seasoning:true},
+      {name:"砂糖", unit:"大さじ", amount:1, seasoning:true},
+      {name:"だし", unit:"ml", amount:100, seasoning:true},
+    ]},
+  { name:"ふわとろ親子丼", cal:837, categories:["丼もの"], meals:["昼食","夕食"], easy:false,
+    ingredients:[
+      {name:"鶏もも肉", unit:"g", amount:120},
+      {name:"卵", unit:"個", amount:2},
+      {name:"玉ねぎ", unit:"個", amount:0.5},
+      {name:"ほうれん草", unit:"g", amount:30},
+      {name:"ご飯", unit:"g", amount:180},
+      {name:"めんつゆ(2倍濃縮)", unit:"大さじ", amount:2, seasoning:true},
+    ]},
+  { name:"麻婆豆腐", cal:725, categories:["ご飯・おかず"], meals:["夕食"], easy:false,
+    ingredients:[
+      {name:"豆腐", unit:"丁", amount:0.5},
+      {name:"豚ひき肉", unit:"g", amount:80},
+      {name:"豆板醤", unit:"小さじ", amount:1, seasoning:true},
+      {name:"甜麺醤", unit:"小さじ", amount:1, seasoning:true},
+      {name:"しょうゆ", unit:"小さじ", amount:1, seasoning:true},
+      {name:"鶏がらスープの素", unit:"小さじ", amount:1, seasoning:true},
+      {name:"片栗粉", unit:"小さじ", amount:1, seasoning:true},
+    ]},
+  { name:"チーズソースのタコライス", cal:854, categories:["丼もの","ご飯・おかず"], meals:["昼食","夕食"], easy:false,
+    ingredients:[
+      {name:"合いびき肉", unit:"g", amount:100},
+      {name:"トマト", unit:"個", amount:0.5},
+      {name:"レタス", unit:"枚", amount:2},
+      {name:"じゃがいも", unit:"個", amount:0.5},
+      {name:"ご飯", unit:"g", amount:180},
+      {name:"チーズ", unit:"g", amount:20},
+      {name:"チリパウダー", unit:"小さじ", amount:0.5, seasoning:true},
+      {name:"塩こしょう", unit:"少々", amount:1, seasoning:true},
+    ]},
+  { name:"みそ豚丼", cal:704, categories:["丼もの"], meals:["昼食","夕食"], easy:true,
+    ingredients:[
+      {name:"豚こま切れ肉", unit:"g", amount:120},
+      {name:"ほうれん草", unit:"g", amount:50},
+      {name:"ご飯", unit:"g", amount:180},
+      {name:"みそ", unit:"大さじ", amount:1.5, seasoning:true},
+      {name:"みりん", unit:"大さじ", amount:1, seasoning:true},
+      {name:"砂糖", unit:"小さじ", amount:1, seasoning:true},
+    ]},
+  { name:"濃厚味噌焼きうどん", cal:569, categories:["麺類"], meals:["昼食","夕食"], easy:true,
+    ingredients:[
+      {name:"冷凍うどん", unit:"玉", amount:1},
+      {name:"豚こま切れ肉", unit:"g", amount:80},
+      {name:"にんじん", unit:"本", amount:0.25},
+      {name:"キャベツ", unit:"枚", amount:2},
+      {name:"みそ", unit:"大さじ", amount:1, seasoning:true},
+      {name:"しょうゆ", unit:"小さじ", amount:1, seasoning:true},
+      {name:"みりん", unit:"小さじ", amount:1, seasoning:true},
+    ]},
+  { name:"豚そぼろと卵の2色丼", cal:750, categories:["丼もの"], meals:["昼食","夕食"], easy:true,
+    ingredients:[
+      {name:"豚ひき肉", unit:"g", amount:100},
+      {name:"卵", unit:"個", amount:1},
+      {name:"ご飯", unit:"g", amount:180},
+      {name:"しょうゆ", unit:"大さじ", amount:1.5, seasoning:true},
+      {name:"みりん", unit:"大さじ", amount:1, seasoning:true},
+      {name:"砂糖", unit:"小さじ", amount:1, seasoning:true},
+    ]},
+  { name:"エビたまあんかけ焼きそば", cal:705, categories:["麺類"], meals:["昼食","夕食"], easy:false,
+    ingredients:[
+      {name:"焼きそば麺", unit:"玉", amount:1},
+      {name:"えび", unit:"g", amount:60},
+      {name:"卵", unit:"個", amount:1},
+      {name:"にんじん", unit:"本", amount:0.25},
+      {name:"しいたけ", unit:"枚", amount:2},
+      {name:"鶏がらスープの素", unit:"小さじ", amount:1, seasoning:true},
+      {name:"片栗粉", unit:"小さじ", amount:1, seasoning:true},
+      {name:"オイスターソース", unit:"小さじ", amount:1, seasoning:true},
+    ]},
+  { name:"ローストビーフ丼", cal:835, categories:["丼もの"], meals:["夕食"], easy:false,
+    ingredients:[
+      {name:"牛かたまり肉", unit:"g", amount:150},
+      {name:"ご飯", unit:"g", amount:180},
+      {name:"じゃがいも", unit:"個", amount:0.5},
+      {name:"しょうゆ", unit:"大さじ", amount:2, seasoning:true},
+      {name:"みりん", unit:"大さじ", amount:1, seasoning:true},
+      {name:"にんにく", unit:"かけ", amount:1, seasoning:true},
+    ]},
+  { name:"具沢山おにぎり", cal:546, categories:["ご飯・おかず","サラダ・軽食"], meals:["朝食","昼食"], easy:true,
+    ingredients:[
+      {name:"ご飯", unit:"g", amount:200},
+      {name:"鮭フレーク", unit:"g", amount:30},
+      {name:"ブロッコリー", unit:"房", amount:3},
+      {name:"塩", unit:"少々", amount:1, seasoning:true},
+    ]},
+  { name:"巣篭もりハンバーグ", cal:906, categories:["ご飯・おかず"], meals:["夕食"], easy:false,
+    ingredients:[
+      {name:"合いびき肉", unit:"g", amount:150},
+      {name:"卵", unit:"個", amount:1},
+      {name:"玉ねぎ", unit:"個", amount:0.5},
+      {name:"トマト缶", unit:"缶", amount:0.5},
+      {name:"パン粉", unit:"大さじ", amount:2, seasoning:true},
+      {name:"塩こしょう", unit:"少々", amount:1, seasoning:true},
+      {name:"ウスターソース", unit:"大さじ", amount:1, seasoning:true},
+    ]},
+  { name:"一口チキンカツ丼", cal:725, categories:["丼もの"], meals:["昼食","夕食"], easy:false,
+    ingredients:[
+      {name:"鶏むね肉", unit:"g", amount:120},
+      {name:"卵", unit:"個", amount:1.5},
+      {name:"玉ねぎ", unit:"個", amount:0.5},
+      {name:"ご飯", unit:"g", amount:180},
+      {name:"パン粉", unit:"大さじ", amount:3, seasoning:true},
+      {name:"めんつゆ(2倍濃縮)", unit:"大さじ", amount:2, seasoning:true},
+    ]},
+  { name:"ぶっかけ豆腐茶漬け", cal:313, categories:["ご飯・おかず","サラダ・軽食"], meals:["朝食","昼食"], easy:true,
+    ingredients:[
+      {name:"豆腐", unit:"丁", amount:0.5},
+      {name:"ご飯", unit:"g", amount:150},
+      {name:"豆苗", unit:"g", amount:30},
+      {name:"だし", unit:"ml", amount:150, seasoning:true},
+      {name:"塩", unit:"少々", amount:1, seasoning:true},
+    ]},
+  { name:"切り抜きハムエッグトースト", cal:532, categories:["パン・洋食"], meals:["朝食"], easy:true,
+    ingredients:[
+      {name:"食パン", unit:"枚", amount:1},
+      {name:"卵", unit:"個", amount:1},
+      {name:"ハム", unit:"枚", amount:2},
+      {name:"チーズ", unit:"g", amount:15},
+      {name:"バター", unit:"g", amount:5, seasoning:true},
+      {name:"塩こしょう", unit:"少々", amount:1, seasoning:true},
+    ]},
 
-  // 味の素パーク
-  { name:"鶏肉入りラタトゥイユ", ingredients:"鶏肉・トマト・ズッキーニ", cal:630, categories:["ご飯・おかず"], meals:["夕食"], easy:false },
-  { name:"ガパオライス", ingredients:"鶏ひき肉・バジル・卵", cal:640, categories:["ご飯・おかず","丼もの"], meals:["昼食","夕食"], easy:false },
-  { name:"四川式麻婆豆腐", ingredients:"豆腐・豚ひき肉・花椒", cal:620, categories:["ご飯・おかず"], meals:["夕食"], easy:false },
-  { name:"なすと大葉の肉巻きロール", ingredients:"なす・大葉・薄切り肉", cal:610, categories:["ご飯・おかず"], meals:["夕食"], easy:false },
-  { name:"ズッキーニと豚肉の青じそ炒め", ingredients:"ズッキーニ・豚肉・青じそ", cal:600, categories:["ご飯・おかず"], meals:["昼食","夕食"], easy:false },
-  { name:"マグロとねばねば野菜のそうめん", ingredients:"マグロ・オクラ・そうめん", cal:430, categories:["麺類"], meals:["昼食"], easy:true },
+  // --- 味の素パーク ---
+  { name:"鶏肉入りラタトゥイユ", cal:630, categories:["ご飯・おかず"], meals:["夕食"], easy:false,
+    ingredients:[
+      {name:"鶏もも肉", unit:"g", amount:100},
+      {name:"トマト", unit:"個", amount:1},
+      {name:"ズッキーニ", unit:"本", amount:0.5},
+      {name:"玉ねぎ", unit:"個", amount:0.5},
+      {name:"オリーブオイル", unit:"大さじ", amount:1, seasoning:true},
+      {name:"塩こしょう", unit:"少々", amount:1, seasoning:true},
+      {name:"コンソメ", unit:"個", amount:0.5, seasoning:true},
+    ]},
+  { name:"ガパオライス", cal:640, categories:["ご飯・おかず","丼もの"], meals:["昼食","夕食"], easy:false,
+    ingredients:[
+      {name:"鶏ひき肉", unit:"g", amount:100},
+      {name:"卵", unit:"個", amount:1},
+      {name:"ご飯", unit:"g", amount:180},
+      {name:"バジル", unit:"g", amount:10},
+      {name:"ナンプラー", unit:"大さじ", amount:1, seasoning:true},
+      {name:"オイスターソース", unit:"大さじ", amount:1, seasoning:true},
+      {name:"砂糖", unit:"小さじ", amount:0.5, seasoning:true},
+    ]},
+  { name:"四川式麻婆豆腐", cal:620, categories:["ご飯・おかず"], meals:["夕食"], easy:false,
+    ingredients:[
+      {name:"豆腐", unit:"丁", amount:0.5},
+      {name:"豚ひき肉", unit:"g", amount:80},
+      {name:"花椒", unit:"小さじ", amount:0.5, seasoning:true},
+      {name:"豆板醤", unit:"小さじ", amount:1, seasoning:true},
+      {name:"テンメンジャン", unit:"小さじ", amount:1, seasoning:true},
+      {name:"鶏がらスープの素", unit:"小さじ", amount:1, seasoning:true},
+    ]},
+  { name:"なすと大葉の肉巻きロール", cal:610, categories:["ご飯・おかず"], meals:["夕食"], easy:false,
+    ingredients:[
+      {name:"なす", unit:"本", amount:1},
+      {name:"大葉", unit:"枚", amount:4},
+      {name:"豚薄切り肉", unit:"g", amount:100},
+      {name:"しょうゆ", unit:"大さじ", amount:1, seasoning:true},
+      {name:"みりん", unit:"大さじ", amount:1, seasoning:true},
+      {name:"片栗粉", unit:"小さじ", amount:1, seasoning:true},
+    ]},
+  { name:"ズッキーニと豚肉の青じそ炒め", cal:600, categories:["ご飯・おかず"], meals:["昼食","夕食"], easy:false,
+    ingredients:[
+      {name:"ズッキーニ", unit:"本", amount:0.5},
+      {name:"豚こま切れ肉", unit:"g", amount:100},
+      {name:"青じそ", unit:"枚", amount:5},
+      {name:"しょうゆ", unit:"大さじ", amount:1, seasoning:true},
+      {name:"ごま油", unit:"小さじ", amount:1, seasoning:true},
+      {name:"塩こしょう", unit:"少々", amount:1, seasoning:true},
+    ]},
+  { name:"マグロとねばねば野菜のそうめん", cal:430, categories:["麺類"], meals:["昼食"], easy:true,
+    ingredients:[
+      {name:"そうめん", unit:"束", amount:2},
+      {name:"まぐろ(刺身用)", unit:"g", amount:60},
+      {name:"オクラ", unit:"本", amount:3},
+      {name:"めんつゆ(2倍濃縮)", unit:"大さじ", amount:2, seasoning:true},
+    ]},
+
+  // --- 朝食補完 ---
+  { name:"納豆ご飯", cal:320, categories:["ご飯・おかず"], meals:["朝食"], easy:true,
+    ingredients:[
+      {name:"ご飯", unit:"g", amount:180},
+      {name:"納豆", unit:"パック", amount:1},
+      {name:"しょうゆ", unit:"少々", amount:1, seasoning:true},
+    ]},
+  { name:"目玉焼きトースト", cal:380, categories:["パン・洋食"], meals:["朝食"], easy:true,
+    ingredients:[
+      {name:"食パン", unit:"枚", amount:1},
+      {name:"卵", unit:"個", amount:1},
+      {name:"バター", unit:"g", amount:5, seasoning:true},
+      {name:"塩こしょう", unit:"少々", amount:1, seasoning:true},
+    ]},
+  { name:"お茶漬け", cal:250, categories:["ご飯・おかず","サラダ・軽食"], meals:["朝食"], easy:true,
+    ingredients:[
+      {name:"ご飯", unit:"g", amount:150},
+      {name:"漬物", unit:"g", amount:20},
+      {name:"お茶漬けの素", unit:"袋", amount:1, seasoning:true},
+    ]},
+  { name:"バナナヨーグルト", cal:190, categories:["サラダ・軽食"], meals:["朝食"], easy:true,
+    ingredients:[
+      {name:"バナナ", unit:"本", amount:1},
+      {name:"ヨーグルト", unit:"g", amount:100},
+      {name:"はちみつ", unit:"小さじ", amount:1, seasoning:true},
+    ]},
+  { name:"野菜たっぷりみそ汁", cal:70, categories:["鍋・汁物"], meals:["朝食"], easy:true, side:true,
+    ingredients:[
+      {name:"豆腐", unit:"g", amount:40},
+      {name:"乾燥わかめ", unit:"g", amount:2},
+      {name:"玉ねぎ", unit:"個", amount:0.25},
+      {name:"みそ", unit:"大さじ", amount:1, seasoning:true},
+      {name:"だし", unit:"ml", amount:200, seasoning:true},
+    ]},
 ];
 
-// ─── 朝食向けシンプルメニュー補完 ───────────────────────────
-const BREAKFAST_EXTRAS = [
-  { name:"納豆ご飯", ingredients:"納豆・ご飯", cal:320, categories:["ご飯・おかず"], meals:["朝食"], easy:true },
-  { name:"目玉焼きトースト", ingredients:"食パン・卵・バター", cal:380, categories:["パン・洋食"], meals:["朝食"], easy:true },
-  { name:"お茶漬け", ingredients:"ご飯・漬物・だし", cal:250, categories:["ご飯・おかず","サラダ・軽食"], meals:["朝食"], easy:true },
-  { name:"バナナヨーグルト", ingredients:"バナナ・ヨーグルト", cal:190, categories:["サラダ・軽食"], meals:["朝食"], easy:true },
-  { name:"野菜たっぷりみそ汁", ingredients:"豆腐・わかめ・玉ねぎ・みそ", cal:70, categories:["鍋・汁物"], meals:["朝食"], easy:true, side:true },
-];
-const ALL_RECIPES = [...RECIPES, ...BREAKFAST_EXTRAS];
-
-// ─── ステート ─────────────────────────────────────────────
+// ===== ステート =====
 let people = 2;
 const timeChips = [];
 const moodChips = [];
 
-// ─── UI ─────────────────────────────────────────────────
+// ===== UI操作 =====
 document.getElementById('dec').onclick = () => {
   if (people > 1) { people--; document.getElementById('people-count').textContent = people; }
 };
 document.getElementById('inc').onclick = () => {
   if (people < 10) { people++; document.getElementById('people-count').textContent = people; }
 };
-
 document.querySelectorAll('#time-chips .chip').forEach(c => {
   c.onclick = () => {
     c.classList.toggle('active-time');
@@ -239,7 +487,6 @@ document.querySelectorAll('#time-chips .chip').forEach(c => {
     if (i > -1) timeChips.splice(i, 1); else timeChips.push(v);
   };
 });
-
 document.querySelectorAll('#mood-chips .chip').forEach(c => {
   c.onclick = () => {
     c.classList.toggle('active-mood');
@@ -248,77 +495,60 @@ document.querySelectorAll('#mood-chips .chip').forEach(c => {
     if (i > -1) moodChips.splice(i, 1); else moodChips.push(v);
   };
 });
-
 const easyCheck = document.getElementById('easy-check');
 const easyCard  = document.getElementById('easy-card');
 easyCheck.onchange = () => easyCard.classList.toggle('easy-active', easyCheck.checked);
-
 document.getElementById('gen-btn').onclick = generate;
 
-// ─── 献立生成ロジック ──────────────────────────────────────
-function pickRandom(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
+// ===== 献立生成 =====
+function pickRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function formatAmount(amount, unit, n) {
+  const total = amount * n;
+  // 端数処理
+  const rounded = Math.round(total * 10) / 10;
+  if (unit === '少々') return `少々`;
+  return `${rounded}${unit}`;
 }
 
 function generate() {
-  const times  = timeChips.length ? [...timeChips] : ['朝食','昼食','夕食'];
-  const moods  = moodChips.length ? [...moodChips] : null;
-  const easy   = easyCheck.checked;
-
+  const n     = people; // ← ここでキャプチャ（①のバグ修正）
+  const times = timeChips.length ? [...timeChips] : ['朝食','昼食','夕食'];
+  const moods = moodChips.length ? [...moodChips] : null;
+  const easy  = easyCheck.checked;
   const results = [];
 
   for (const time of times) {
-    // メイン候補（side でないもの）
-    let mains = ALL_RECIPES.filter(r =>
-      r.meals.includes(time) &&
-      !r.side &&
+    let mains = RECIPES.filter(r =>
+      r.meals.includes(time) && !r.side &&
       (easy ? r.easy : true) &&
       (moods ? moods.some(m => r.categories.includes(m)) : true)
     );
-
-    // 気分フィルターで0件なら緩める
-    if (!mains.length) {
-      mains = ALL_RECIPES.filter(r => r.meals.includes(time) && !r.side && (easy ? r.easy : true));
-    }
-    if (!mains.length) {
-      mains = ALL_RECIPES.filter(r => r.meals.includes(time) && !r.side);
-    }
-
+    if (!mains.length) mains = RECIPES.filter(r => r.meals.includes(time) && !r.side && (easy ? r.easy : true));
+    if (!mains.length) mains = RECIPES.filter(r => r.meals.includes(time) && !r.side);
     if (!mains.length) continue;
 
     const main = pickRandom(mains);
-
-    // サイド候補（副菜・汁物）：メインと同じ食事時間帯
-    const sides = ALL_RECIPES.filter(r =>
-      r.meals.includes(time) &&
-      r.side &&
-      r.name !== main.name &&
-      (easy ? r.easy : true)
+    const sides = RECIPES.filter(r =>
+      r.meals.includes(time) && r.side && r.name !== main.name && (easy ? r.easy : true)
     );
-
     const sideDishes = [];
-    if (sides.length) {
-      // 汁物1つ
-      const soups = sides.filter(r => r.categories.includes('鍋・汁物'));
-      if (soups.length) sideDishes.push(pickRandom(soups));
-      // 副菜1つ（汁物以外）
-      const others = sides.filter(r => !r.categories.includes('鍋・汁物'));
-      if (others.length) sideDishes.push(pickRandom(others));
-    }
+    const soups  = sides.filter(r => r.categories.includes('鍋・汁物'));
+    if (soups.length)  sideDishes.push(pickRandom(soups));
+    const others = sides.filter(r => !r.categories.includes('鍋・汁物'));
+    if (others.length) sideDishes.push(pickRandom(others));
 
-    // 重複排除
     const allDishes = [main, ...sideDishes.filter(s => s.name !== main.name)];
     const totalCal  = allDishes.reduce((s, r) => s + r.cal, 0);
-
-    results.push({ time, dishes: allDishes, totalCal });
+    results.push({ time, dishes: allDishes, totalCal, n });
   }
-
   renderResult(results, moods, easy);
 }
 
-// ─── 表示 ───────────────────────────────────────────────
+// ===== 表示 =====
 function renderResult(results, moods, easy) {
   const area = document.getElementById('result-area');
+  const n = people;
 
   if (!results.length) {
     area.innerHTML = `<div class="no-result">条件に合う献立が見つかりませんでした。<br>気分の選択を外すか、ずぼら飯モードをオフにしてお試しください。</div>`;
@@ -329,33 +559,44 @@ function renderResult(results, moods, easy) {
   const modeLabel  = easy ? ' · ずぼら飯モード' : '';
   const moodLabel  = moods ? moods.join('・') : '何でも';
 
-  const rows = results.map(r => {
-    const dishRows = r.dishes.map(d => `
-      <div class="meal-row">
-        <div class="meal-time">${r.time}</div>
-        <div class="meal-info">
-          <div class="meal-name">${d.name}</div>
-          <div class="meal-meta">
-            <span class="meal-ingredients">${d.ingredients}</span>
-            <span class="cal-badge">約${d.cal}kcal</span>
-            ${d.easy ? '<span class="easy-badge">⚡ 時短</span>' : ''}
+  const blocks = results.map(r => {
+    const dishRows = r.dishes.map(d => {
+      const mainIngr = d.ingredients.filter(i => !i.seasoning);
+      const seasIngr = d.ingredients.filter(i => i.seasoning);
+      const mainTags = mainIngr.map(i =>
+        `<span class="ingr-item">${i.name} <strong>${formatAmount(i.amount, i.unit, n)}</strong></span>`
+      ).join('');
+      const seaTags = seasIngr.map(i =>
+        `<span class="ingr-item"><span class="seasoning">${i.name} ${formatAmount(i.amount, i.unit, n)}</span></span>`
+      ).join('');
+      return `
+        <div class="meal-row">
+          <div class="meal-info">
+            <div class="meal-name">${d.name}</div>
+            <div class="meal-meta">
+              <span class="cal-badge">約${d.cal}kcal/人</span>
+              ${d.easy ? '<span class="easy-badge">⚡ 時短</span>' : ''}
+            </div>
+            <div class="ingr-list">${mainTags}${seaTags}</div>
           </div>
-        </div>
-      </div>
-    `).join('');
-    return dishRows;
+        </div>`;
+    }).join('');
+    return `
+      <div class="time-block">
+        <div class="time-heading">${r.time}</div>
+        ${dishRows}
+      </div>`;
   }).join('');
 
   area.innerHTML = `
     <div class="result-wrap">
       <div class="result-head">
-        <div class="result-title">${people}人分 · ${moodLabel}${modeLabel}</div>
+        <div class="result-title">${n}人分 · ${moodLabel}${modeLabel}</div>
         <div class="total-cal">合計 <strong>${grandTotal}kcal</strong>/人</div>
       </div>
-      ${rows}
+      ${blocks}
       <button class="retry-btn" onclick="generate()">🔄 もう一度提案してもらう</button>
-    </div>
-  `;
+    </div>`;
 }
 </script>
 </body>
